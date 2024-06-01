@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>ShoppingList</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    </head>
+    <body>
+        <div ng-app="myShoppingList" ng-controller="myCtrl">
+            <table>
+                <th>My Shopping List</th>
+                <tr ng-repeat="item in items">
+                    <td>{{item}}</td><td ng-click="removeItem($index)">x</td>
+                </tr>
+            </table>
+            <div>
+                <input type="text" ng-model="newItem"/>
+                <button ng-click="addItem()">Add</button>
+                <div ng-show="repeatItemErr">
+                    <p>TThe item is already in the list</p></div>
+            </div>
+            
+        </div>
+
+        <script>
+            var app = angular.module('myShoppingList', []);
+            
+            app.controller('myCtrl', function($scope){
+                $scope.items = [];
+                $scope.newItem = '';
+                $scope.repeatItemErr = false;
+                $scope.addItem = function(){
+                    if ($scope.items.includes($scope.newItem)){
+                        $scope.repeatItemErr = true;
+                    }else{
+                        $scope.repeatItemErr = false;
+                        $scope.items.push($scope.newItem);
+                        $scope.newItem = '';
+                    }
+                    
+                };
+
+                $scope.removeItem = function(x){
+                    $scope.items.splice(x,1)
+                };
+            });
+        </script>
+
+    </body>
+</html>
